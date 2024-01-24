@@ -1,0 +1,13 @@
+{
+  "name": "YTMusic Discord RPC Client",
+  "version": "1.0",
+  "description": "Send your YTMusic activity to Discord.",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["*://music.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["tabs", "activeTab"]
+}

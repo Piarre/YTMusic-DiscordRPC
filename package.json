@@ -4,18 +4,24 @@
   "description": "",
   "main": "out/index.js",
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
-    "clear": "rm -rf out/",
-    "start": "tsup && node .",
-    "start:clean": "rm -rf out && tsup && node ."
+    "dev": "nodemon --config nodemon.json src/index.ts"
   },
   "keywords": [],
   "author": "Piarre",
   "license": "ISC",
   "devDependencies": {
+    "@types/discord-rich-presence": "^0.0.2",
     "@types/node": "^20.11.5",
+    "@types/ws": "^8.5.10",
+    "nodemon": "^3.0.3",
     "tsup": "^8.0.1",
+    "tsx": "^3.12.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.4.1",
+    "discord-rich-presence": "^0.0.8",
+    "hono": "^3.12.6",
+    "ws": "^8.16.0"
   }
 }

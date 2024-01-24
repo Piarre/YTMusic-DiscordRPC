@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+      "lib": ["ESNext"],
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "target": "ESNext",
+      "outDir": "dist",
+      "sourceMap": false,
+      "esModuleInterop": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "allowSyntheticDefaultImports": true,
+      "skipLibCheck": true,
+      "skipDefaultLibCheck": true,
+      "resolveJsonModule": true,
+      "importHelpers": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "ts-node": {
+      "transpileOnly": true,
+      "compilerOptions": {
+          "module": "CommonJS" // <==== added this, so it will compile to ES modules, not CommonJS
+      }
+  }
+}
