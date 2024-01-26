@@ -1,46 +1,57 @@
 import DiscordRPC from "discord-rich-presence";
-import { TRPC } from "./@types/response";
+import { TRPC } from "./@types/response.js";
 
-import WebSocket from "ws";
+import { WebSocketServer } from "ws";
 
-import { convertToMilliseconds, timeToMilli } from "./utils";
+import { calculateTimestamps } from "./utils.js";
+import { Command } from "commander";
 
-const port = (process.env.POpRT as any) || 3012;
-const wss = new WebSocket.Server({ port });
+const client = DiscordRPC("983806983184470086");
+const YTRPC = new Command().version("1.0.0");
 
-export const client = DiscordRPC("983806983184470086");
+YTRPC.option("-p, --port <port>", "Port to run the WebSocket Server").action((options) => {
+  let port = process.env.PORT || options.port || 3012;
+  
+  if (isNaN(port)) {
+    console.error("❌ Port must be a number, using default port 3012");
+    port = 3012;
+  }
 
-client.on("connected", async () => {
-  console.log("🚀 Connected to Discord's WebSocket");
+  const wss = new WebSocketServer({ port });
 
-  wss.on("connection", (ws: WebSocket) => {
-    console.log(`🚀 WebSocket Server opened on port ${port}`);
+  client.on("connected", async () => {
+    console.log("🚀 Connected to Discord's WebSocket");
 
-    ws.on("message", (message: string) => {
-      const body = JSON.parse(message) as TRPC;
-      const { imageSong, song, time, timeMax, artist, album } = body;
-      let startTime: number | null = null;
+    wss.on("connection", (ws: WebSocket) => {
+      console.log(`🚀 WebSocket Server opened on port ${port}`);
 
-      if (!imageSong && !song && !timeMax && !artist) return;
+      wss.on("message", (message: string) => {
+        const body = JSON.parse(message) as TRPC;
+        const { imageSong, song, time, timeMax, artist, album } = body;
 
-      client.updatePresence({
-        state: artist,
-        details: `${song} • ${album}`,
-        startTimestamp: Date.now() + convertToMilliseconds(time),
-        endTimestamp: timeToMilli(timeMax ?? "0:00"),
-        largeImageKey: imageSong,
-        smallImageKey: "https://upload.wikimedia.org/wikipedia/commons/d/d8/YouTubeMusic_Logo.png",
-        instance: true,
-      });
+        if (!imageSong && !song && !timeMax && !artist) return;
 
-      console.log({
-        startTimestamp: Date.now() + convertToMilliseconds(time),
-        endTimestamp: timeToMilli(timeMax ?? "0:00"),
+        const { startTime, endTime } = calculateTimestamps(time, timeMax);
+
+        client.updatePresence({
+          state: artist,
+          details: song == album ? song : `${song} • ${album}`,
+          startTimestamp: startTime,
+          endTimestamp: endTime,
+          largeImageKey: imageSong,
+          smallImageKey:
+            "https://upload.wikimedia.org/wikipedia/commons/d/d8/YouTubeMusic_Logo.png",
+          instance: true,
+        });
       });
     });
-  });
 
-  client.on("error", (err) => {
-    console.error(err);
+    client.on("error", (err) => {
+      console.error(err);
+    });
   });
 });
+
+(async () => {
+  YTRPC.parse(process.argv);
+})();
