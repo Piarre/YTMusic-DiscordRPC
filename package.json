@@ -12,27 +12,33 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "npm run clean && tsup --watch",
+    "dev": "npm run clean && nodemon --config nodemon.json src/index.ts",
     "clear": "rm -rf out/",
     "start": "node .",
     "build": "tsup",
     "start:rm": "rm -rf out && tsc && node .",
-    "clean": "rm -rf out"
+    "clean": "rm -rf out",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "keywords": [],
   "author": "Piarre",
   "license": "ISC",
   "devDependencies": {
     "@types/discord-rich-presence": "^0.0.2",
+    "@types/discord-rpc": "^4.0.8",
     "@types/node": "^20.11.5",
     "@types/ws": "^8.5.10",
     "nodemon": "^3.0.3",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitepress": "^1.0.0-rc.40"
   },
   "dependencies": {
     "commander": "^11.1.0",
     "discord-rich-presence": "^0.0.8",
+    "discord-rpc": "^4.0.1",
     "ws": "^8.16.0"
   }
 }

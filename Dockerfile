@@ -35,5 +35,6 @@ COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/out ./out
 
 EXPOSE 3012
+EXPOSE 6463-6472
 
 CMD npm start
