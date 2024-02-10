@@ -18,10 +18,6 @@ export default defineConfig({
         items: [
           { text: "Get Started", link: "/installation" },
           { text: "License", link: "/license" },
-          {
-            text: "How to use",
-            link: "/how-to-use",
-          },
         ],
       },
     ],
