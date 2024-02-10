@@ -20,11 +20,7 @@ export default defineConfig({
           { text: "License", link: "/license" },
           {
             text: "How to use",
-            base: "/how-to-use",
-            items: [
-              { text: "CLI", link: "/cli" },
-              { text: "Docker", link: "/docker" },
-            ],
+            link: "/how-to-use",
           },
         ],
       },

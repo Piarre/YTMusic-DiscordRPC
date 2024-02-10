@@ -3,7 +3,7 @@
       "target": "es2016",
       "module": "NodeNext",
       "resolveJsonModule": true,
-      "outDir": "./out",
+      "outDir": "node_modules/out",
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "strict": true,

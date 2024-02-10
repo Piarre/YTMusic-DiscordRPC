@@ -14,11 +14,34 @@ title: Documentation
 npm install @piarre/ytrpc
 ```
 
-#### Docker
+## :zap: Setup extension
+
+### First step
+
+Enable `developer mode` in a chromium based browser (chrome for me).
+
+![GitHub Source](public/setup/step-one.png)
+
+### Second step
+
+Load the extension by clicking `Load unpacked` then select the folder `extension`
+
+![GitHub Source](public/setup/step-two.png)
+
+### Last step
+
+Launch the server by running `ytrpc` anywhere and you should see
 
 ```bash
-docker pull ghcr.io/piarre/ytrpc-server:latest
+🚀 Connected to Discord's IPC
+🚀 WebSocket Server opened on port 3012
 ```
+
+Then, `reload` your Youtube Music page then it's done :sparkles:
+
+:::tip
+You can run it on background with PM2 or something else.
+:::
 
 ### 🔥 [Source](https://github.com/Piarre/YTMusic-DiscordRPC)
 
