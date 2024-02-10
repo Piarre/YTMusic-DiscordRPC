@@ -1,29 +1,19 @@
+import { WebSocketServer } from "ws";
+import { calculateTimestamps } from "./lib/utils.js";
+
 import { TRPC } from "./@types/response.js";
 
-import { WebSocketServer } from "ws";
+import DiscordRPC from "discord-rich-presence";
+const client = DiscordRPC("983806983184470086");
 
-import { calculateTimestamps } from "./utils.js";
-import { Command } from "commander";
-import setupIPC from "./lib/Discord.js";
-
-const client = setupIPC();
-const YTRPC = new Command().version("1.0.0");
-
-YTRPC.option("-p, --port <port>", "Port to run the WebSocket Server").action((options) => {
-  let port = process.env.PORT || options.port || 3012;
-
-  if (isNaN(port)) {
-    console.error("❌ Port must be a number, using default port 3012");
-    port = 3012;
-  }
-
-  const wss = new WebSocketServer({ port });
+(async () => {
+  const wss = new WebSocketServer({ port: 3012 });
 
   client.on("connected", async () => {
     console.log("🚀 Connected to Discord's IPC");
 
     wss.on("connection", (ws: WebSocket) => {
-      console.log(`🚀 WebSocket Server opened on port ${port}`);
+      console.log(`🚀 WebSocket Server opened on port 3012`);
 
       ws.onmessage = (event: any) => {
         const { imageSong, song, time, timeMax, artist, album } = JSON.parse(event.data) as TRPC;
@@ -32,29 +22,18 @@ YTRPC.option("-p, --port <port>", "Port to run the WebSocket Server").action((op
 
         const { startTime, endTime } = calculateTimestamps(time, timeMax);
 
-        client.setActivity({
+        const renderedText = song.toLowerCase() == album.toLowerCase() ? song : `${song} • ${album}`;
+
+        client.updatePresence({
           state: artist,
-          details: song == album ? song : `${song} • ${album}`,
+          details: renderedText,
           startTimestamp: startTime,
           endTimestamp: endTime,
           largeImageKey: imageSong,
-          smallImageKey:
-            "https://upload.wikimedia.org/wikipedia/commons/d/d8/YouTubeMusic_Logo.png",
+          smallImageKey: "https://upload.wikimedia.org/wikipedia/commons/d/d8/YouTubeMusic_Logo.png",
           instance: true,
-          largeImageText: `${song} • ${album}`,
+          largeImageText: renderedText,
           smallImageText: "Youtube Music",
-          buttons: [
-            {
-              label: "Cover Link",
-              url: imageSong,
-            },
-          ],
-          // buttons: [
-          //   {
-          //     label: "Listen on Youtube Music",
-          //     url: "",
-          //   },
-          // ],
         });
       };
     });
@@ -63,8 +42,4 @@ YTRPC.option("-p, --port <port>", "Port to run the WebSocket Server").action((op
       console.error(err);
     });
   });
-});
-
-(async () => {
-  YTRPC.parse(process.argv);
 })();

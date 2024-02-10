@@ -3,6 +3,6 @@ export type TRPC = {
   imageSong: string;
   time: string;
   timeMax: string;
-  album?: string;
+  album: string;
   artist: string;
 };

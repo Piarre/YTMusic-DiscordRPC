@@ -41,7 +41,6 @@ dist/**/*
 yarn.lock
 
 out/
-bin/
 
 docs/.vitepress/dist
 docs/.vitepress/cache

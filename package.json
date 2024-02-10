@@ -2,7 +2,7 @@
   "name": "ytmusicrpc",
   "version": "1.0.0",
   "description": "Discord Rich Presence for YouTube Music",
-  "main": "out/index.js",
+  "main": "out/index.cjs",
   "type": "module",
   "bin": {
     "@piarre/ytrpc": "./bin/ytrpc.cjs",
@@ -15,7 +15,7 @@
     "dev": "npm run clean && nodemon --config nodemon.json src/index.ts",
     "clear": "rm -rf out/",
     "start": "node .",
-    "build": "tsup",
+    "build": "rm -rf out && tsc",
     "start:rm": "rm -rf out && tsc && node .",
     "clean": "rm -rf out",
     "docs:dev": "vitepress dev docs",
@@ -27,7 +27,6 @@
   "license": "ISC",
   "devDependencies": {
     "@types/discord-rich-presence": "^0.0.2",
-    "@types/discord-rpc": "^4.0.8",
     "@types/node": "^20.11.5",
     "@types/ws": "^8.5.10",
     "nodemon": "^3.0.3",
@@ -38,7 +37,6 @@
   "dependencies": {
     "commander": "^11.1.0",
     "discord-rich-presence": "^0.0.8",
-    "discord-rpc": "^4.0.1",
     "ws": "^8.16.0"
   }
 }
